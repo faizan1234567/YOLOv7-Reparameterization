@@ -1,0 +1,4 @@
+*.pth
+*.pdf
+/get-pip.py
+yolo_rep/
