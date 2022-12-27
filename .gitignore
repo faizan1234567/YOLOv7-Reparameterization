@@ -1,4 +1,4 @@
-*.pth
+*.pt
 *.pdf
 /get-pip.py
 yolo_rep/
