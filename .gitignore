@@ -2,3 +2,4 @@
 *.pdf
 /get-pip.py
 yolo_rep/
+__pycache__/
