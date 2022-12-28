@@ -22,11 +22,8 @@ def model_yolov7(model_file, model_config_file, save_reparametrized_model = ""):
     """
     device = select_device('0', batch_size=1)
     ckpt = torch.load(model_file, map_location=device)
-    # ['model']
-    print(model_file)
+    # print(model_file)
     model = Model(model_config_file, ch=3, nc=80).to(device)
-
-    model.load_state_dict(torch.load(model_file, map_location=device))
 
     with open(model_config_file) as f:
         yml = yaml.load(f, Loader=yaml.SafeLoader)
@@ -34,12 +31,14 @@ def model_yolov7(model_file, model_config_file, save_reparametrized_model = ""):
 
 
     state_dict = ckpt['model'].float().state_dict()
+    print(state_dict.keys())
     exclude = []
     intersect_state_dict = {k: v for k, v in state_dict.items() if k in model.state_dict() and not any(x in k for x in exclude) and v.shape == model.state_dict()[k].shape}
     model.load_state_dict(intersect_state_dict, strict=False)
     model.names = ckpt['model'].names
     model.nc = ckpt['model'].nc
 
+    # reparametrized YOLOv7
     # reparametrized YOLOv7
     for i in range((model.nc+5)*anchors):
         model.state_dict()['model.105.m.0.weight'].data[i, :, :, :] *= state_dict['model.105.im.0.implicit'].data[:, i, : :].squeeze()
@@ -51,8 +50,7 @@ def model_yolov7(model_file, model_config_file, save_reparametrized_model = ""):
     model.state_dict()['model.105.m.0.bias'].data *= state_dict['model.105.im.0.implicit'].data.squeeze()
     model.state_dict()['model.105.m.1.bias'].data *= state_dict['model.105.im.1.implicit'].data.squeeze()
     model.state_dict()['model.105.m.2.bias'].data *= state_dict['model.105.im.2.implicit'].data.squeeze()
-
-    # model to be saved
+        # model to be saved
     ckpt = {'model': deepcopy(model.module if is_parallel(model) else model).half(),
             'optimizer': None,
             'training_results': None,
