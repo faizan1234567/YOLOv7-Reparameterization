@@ -1,7 +1,8 @@
 """reparmetrize yolov7 model, this repository will contain script to reparameterize the 
-yolov7 version. 
+yolov7 version for deployment purposes. 
 
 The script needs model file and a configuration file for yolov7
+credit: https://github.com/WongKinYiu/yolov7/blob/main/tools/reparameterization.ipynb
 """
 from copy import deepcopy
 from yolov7.models.yolo import Model
@@ -23,7 +24,7 @@ def model_yolov7(model_file, model_config_file, save_reparametrized_model = ""):
     device = select_device('0', batch_size=1)
     ckpt = torch.load(model_file, map_location=device)
     # print(model_file)
-    model = Model(model_config_file, ch=3, nc=80).to(device)
+    model = Model(model_config_file, ch=3, nc=5).to(device)
 
     with open(model_config_file) as f:
         yml = yaml.load(f, Loader=yaml.SafeLoader)
