@@ -4,7 +4,7 @@
 After training YOLOv7, you need to Reparametrize the checkpoints for deployment
 purposes. Trained checkpoints may not convert to engine file for example when deploying yolov7 to Jetson. This repository organised yolov7 and its variants conversion from yolov7 trained checkpoints to Reparametrized checkpoints. Full Reparametrization deatial is avilable [here](https://arxiv.org/pdf/2207.02696.pdf)
 
-
+![yolov7 reparmetrized](/images/reparametrized_model.png?raw=true "reparmeterization: credit yolov7")
 
 
 ## Installation
@@ -37,6 +37,6 @@ follow yolov7 documentation for more installation instructions if needed.
   --save SAVE           path to save the processed model checkpoints
   --yolov7_type YOLOV7_TYPE
                         yolov7 model to be convert i.e. yolov7, yolo7x, or
-                        other variants..
+                     other variants..
 ```
 
